@@ -362,16 +362,12 @@ public class view_mahasiswa extends javax.swing.JFrame {
         DefaultTableModel DFT = (DefaultTableModel) this.tabel_mahasiswa.getModel();
         DFT.setRowCount(0);
         for (model_mahasiswa ms : list) {
-            int id = ms.getId();
-            String nim = ms.getNim();
             String nama = ms.getNama();
             String jenis_kelamin = ms.getJenis_kelamin();
             String email = ms.getEmail();
-            String nomor_telepon = ms.getNomor_telepon();
             String jurusan = ms.getJurusan();
             String angkatan = ms.getAngkatan();
-            String alamat = ms.getAlamat();
-            DFT.addRow(new Object[]{id, nim, nama, jenis_kelamin, email, nomor_telepon, jurusan, angkatan, alamat});
+            DFT.addRow(new Object[]{nama, jenis_kelamin, email, jurusan, angkatan});
         }
     }
 
