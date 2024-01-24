@@ -11,5 +11,5 @@ import com.login_model.model_login;
  * @author asfin
  */
 public interface controller_login {
-    void login(model_login login);
+    public void login(model_login login);
 }

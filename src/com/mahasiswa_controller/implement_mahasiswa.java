@@ -13,12 +13,10 @@ import javax.swing.JOptionPane;
 
 public class implement_mahasiswa implements controller_mahasiswa {
 
-    public implement_mahasiswa() {
-    }
-
+    @Override
     public void save(model_mahasiswa mahasiswa) {
         try {
-            if (mahasiswa.getNim() == null || mahasiswa.getNim().isEmpty() || mahasiswa.getNim().matches("^[0-9]*$")) {
+            if (mahasiswa.getNim() == null || mahasiswa.getNim().isEmpty() || !mahasiswa.getNim().matches("^[0-9]*$")) {
                 JOptionPane.showMessageDialog((Component) null, "NIM tidak boleh kosong dan harus berupa angka");
             }
             if (mahasiswa.getNama() == null || mahasiswa.getNama().isEmpty()) {
@@ -57,10 +55,11 @@ public class implement_mahasiswa implements controller_mahasiswa {
             statement.executeUpdate();
             JOptionPane.showMessageDialog((Component) null, "Data telah disimpan");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog((Component) null, "Gagal simpan dataMassage = " + e.getMessage());
+            JOptionPane.showMessageDialog((Component) null, "Gagal simpan dataMassage");
         }
     }
 
+    @Override
     public void update(model_mahasiswa mahasiswa) {
         try {
             Connection con = koneksi.getConnection();
@@ -75,36 +74,43 @@ public class implement_mahasiswa implements controller_mahasiswa {
             statement.setString(7, mahasiswa.getAngkatan());
             statement.setString(8, mahasiswa.getAlamat());
             statement.setInt(9, mahasiswa.getId());
-            statement.executeUpdate();
-            JOptionPane.showMessageDialog((Component) null, "Data telah diupdate");
-        } catch (Exception var5) {
-            JOptionPane.showMessageDialog((Component) null, "Gagal update dataMassage = " + var5.getMessage());
+            int rowsAffected = statement.executeUpdate();
+            
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog((Component) null, "Data telah diupdate");
+            }
+
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            JOptionPane.showMessageDialog((Component) null, "Gagal update dataMassage");
         }
 
     }
 
+    @Override
     public void delete(model_mahasiswa mahasiswa) {
         try {
             Connection con = koneksi.getConnection();
-            String sql = "DELETE FROM mahasiswa WHERE nama=?";
+            String sql = "DELETE FROM mahasiswa WHERE id=?";
             PreparedStatement statement = con.prepareStatement(sql);
-            statement.setString(1, mahasiswa.getNama());
+            statement.setInt(1, mahasiswa.getId());
             statement.executeUpdate();
             JOptionPane.showMessageDialog((Component) null, "Data telah dihapus");
-        } catch (Exception var5) {
-            JOptionPane.showMessageDialog((Component) null, "Gagal hapus dataMassage = " + var5.getMessage());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog((Component) null, "Gagal hapus dataMassage ");
         }
 
     }
 
-    public model_mahasiswa get(String nama) {
+    @Override
+    public model_mahasiswa get(int id) {
         model_mahasiswa ms = new model_mahasiswa();
 
         try {
             Connection con = koneksi.getConnection();
-            String sql = "SELECT * FROM mahasiswa WHERE nama=?";
+            String sql = "SELECT * FROM mahasiswa WHERE id=?";
             PreparedStatement statement = con.prepareStatement(sql);
-            statement.setString(1, nama);
+            statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
 
             while (rs.next()) {
@@ -126,8 +132,9 @@ public class implement_mahasiswa implements controller_mahasiswa {
         return ms;
     }
 
+    @Override
     public List<model_mahasiswa> list() {
-        List<model_mahasiswa> list = new ArrayList();
+        List<model_mahasiswa> list = new ArrayList<>();
 
         try {
             Connection con = koneksi.getConnection();
@@ -154,5 +161,31 @@ public class implement_mahasiswa implements controller_mahasiswa {
         }
 
         return list;
+    }
+
+    @Override
+    public model_mahasiswa get(String nama) {
+        model_mahasiswa ms = new model_mahasiswa();
+
+        try {
+            Connection con = koneksi.getConnection();
+            String sql = "SELECT * FROM mahasiswa WHERE nama=?";
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.setString(1, nama);
+            ResultSet rs = statement.executeQuery();
+ 
+            while (rs.next()) {
+                ms.setNama(rs.getString("nama"));
+                ms.setJenis_kelamin(rs.getString("jenis_kelamin"));
+                ms.setEmail(rs.getString("email"));
+                ms.setJurusan(rs.getString("jurusan"));
+                ms.setAngkatan(rs.getString("angkatan"));
+            }
+        } catch (Exception e) {
+            e.getMessage();
+            JOptionPane.showMessageDialog((Component) null, "Gagal" + e.getMessage());
+        }
+
+        return ms;
     }
 }

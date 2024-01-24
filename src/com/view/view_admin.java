@@ -17,7 +17,7 @@ public class view_admin extends javax.swing.JFrame {
      */
     int xx;
     int xy;
-    String search;
+    int search;
 
     public view_admin() {
         initComponents();
@@ -462,7 +462,7 @@ public class view_admin extends javax.swing.JFrame {
 
     private void jButton_searchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_searchActionPerformed
         // TODO add your handling code here:
-        this.search = JOptionPane.showInputDialog("Enter nama mahasiswa");
+        this.search = Integer.parseInt(JOptionPane.showInputDialog("Enter id mahasiswa"));
         implement_mahasiswa im = new implement_mahasiswa();
         model_mahasiswa ms = im.get(this.search);
         this.txtNIM.setText(ms.getNim());
@@ -478,7 +478,7 @@ public class view_admin extends javax.swing.JFrame {
     private void jButton_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_deleteActionPerformed
         // TODO add your handling code here:
         model_mahasiswa ms = new model_mahasiswa();
-        ms.setNama(this.search);
+        ms.setId(this.search);
         implement_mahasiswa im = new implement_mahasiswa();
         im.delete(ms);
         this.Load();
@@ -496,14 +496,14 @@ public class view_admin extends javax.swing.JFrame {
     private void jButton_updateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_updateActionPerformed
         // TODO add your handling code here:
         model_mahasiswa ms = new model_mahasiswa();
-        String nim = this.txtNIM.getText();
-        String nama = this.txtNama.getText();
-        String jenis_kelamin = this.txtJenis_kelamin.getText();
-        String email = this.txtEmail.getText();
-        String nomor_telepon = this.txtNomor_telepon.getText();
-        String jurusan = this.txtJurusan.getText();
-        String angkatan = this.txtAngkatan.getText();
-        String alamat = this.txtAlamat.getText();
+        String nim = txtNIM.getText();
+        String nama = txtNama.getText();
+        String jenis_kelamin = txtJenis_kelamin.getText();
+        String email = txtEmail.getText();
+        String nomor_telepon = txtNomor_telepon.getText();
+        String jurusan = txtJurusan.getText();
+        String angkatan = txtAngkatan.getText();
+        String alamat = txtAlamat.getText();
 
         ms.setNim(nim);
         ms.setNama(nama);
@@ -513,12 +513,14 @@ public class view_admin extends javax.swing.JFrame {
         ms.setJurusan(jurusan);
         ms.setAngkatan(angkatan);
         ms.setAlamat(alamat);
-        ms.setNama(this.search);
+        
+        ms.setId(search);
 
         implement_mahasiswa im = new implement_mahasiswa();
         im.update(ms);
 
         this.Load();
+        
         this.txtNIM.setText("");
         this.txtNama.setText("");
         this.txtJenis_kelamin.setText("");

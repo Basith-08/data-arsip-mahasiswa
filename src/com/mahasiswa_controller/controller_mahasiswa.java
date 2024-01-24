@@ -8,6 +8,7 @@ public interface controller_mahasiswa {
    void save(model_mahasiswa mahasiswa);
    void update(model_mahasiswa mahasiswa);
    void delete(model_mahasiswa mahasiswa);
-   model_mahasiswa get(String nama);
+   model_mahasiswa get(int id);
    List<model_mahasiswa> list();
+   model_mahasiswa get(String nama);
 }

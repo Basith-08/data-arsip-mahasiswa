@@ -11,9 +11,6 @@ public class koneksi {
 
     static Connection con;
 
-    public koneksi() {
-    }
-
     public static Connection getConnection() {
         if (con == null) {
             try {
